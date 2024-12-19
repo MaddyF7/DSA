@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Skills Academy Tracker - Edit {{ table_name }}</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Digital Skills Academy Tracker</h1>
+    </header>
+    <div class="edit-container">
+        <h2>
+            {% if table_name == 'User' %}
+                {% if route == '/' or route == '/apprentices' %}
+                    Edit Apprentice
+                {% elif route == '/managers' %}
+                    Edit Line Manager
+                {% else %}
+                    Edit {{ table_name }}
+                {% endif %}
+            {% else %}
+                Edit {{ table_name }}
+            {% endif %}
+        </h2>
+        <form method="POST">
+            <div class="form-row">
+                <div class="form-column">
+                    {% if table_name == 'User' %}
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" value="{{ record['email'] }}" required>
+
+                        <label for="first_name">First Name</label>
+                        <input type="text" id="first_name" name="first_name" value="{{ record['first_name'] }}" required>
+
+                        <label for="last_name">Last Name</label>
+                        <input type="text" id="last_name" name="last_name" value="{{ record['last_name'] }}" required>
+
+                        {% if route == '/apprentices' %}
+                            <label for="cohort">Cohort</label>
+                            <input type="text" id="cohort" name="cohort" value="{{ record['cohort'] }}">
+                        {% endif %}
+                    {% elif table_name == 'Exam' %}
+                        <label for="name">Exam Name</label>
+                        <input type="text" id="name" name="name" value="{{ record['name'] }}" required>
+
+                        <label for="exam_date">Exam Date</label>
+                        <input type="date" id="exam_date" name="exam_date" value="{{ record['exam_date'] }}" required>
+                    {% elif table_name == 'Leave_request' %}
+                        <label for="leave_type">Leave Type</label>
+                        <select id="leave_type" name="leave_type" required>
+                            <option value="Sick" {% if record['leave_type'] == 'Sick' %}selected{% endif %}>Sick</option>
+                            <option value="Annual" {% if record['leave_type'] == 'Annual' %}selected{% endif %}>Annual</option>
+                            <option value="Maternity" {% if record['leave_type'] == 'Maternity' %}selected{% endif %}>Maternity</option>
+                            <option value="Paternity" {% if record['leave_type'] == 'Paternity' %}selected{% endif %}>Paternity</option>
+                            <option value="Unpaid" {% if record['leave_type'] == 'Unpaid' %}selected{% endif %}>Unpaid</option>
+                            <option value="Other" {% if record['leave_type'] == 'Other' %}selected{% endif %}>Other</option>
+                        </select>
+
+                        <label for="start_date">Start Date</label>
+                        <input type="date" id="start_date" name="start_date" value="{{ record['start_date'] }}" required>
+
+                        <label for="end_date">End Date</label>
+                        <input type="date" id="end_date" name="end_date" value="{{ record['end_date'] }}" required>
+                    {% elif table_name == 'Project' %}
+                        <label for="name">Project Name</label>
+                        <input type="text" id="name" name="name" value="{{ record['name'] }}" required>
+
+                        <label for="description">Description</label>
+                        <textarea id="description" name="description" placeholder="Enter description" required>{{ record['description'] }}</textarea>
+                    {% endif %}
+                </div>
+                <div class="form-column">
+                    {% if table_name == 'User' %}
+                        {% if route == '/apprentices' %}
+                            <label for="start_date">Start Date</label>
+                            <input type="date" id="start_date" name="start_date" value="{{ record['start_date'] }}">
+
+                            <label for="end_date">End Date</label>
+                            <input type="date" id="end_date" name="end_date" value="{{ record['end_date'] }}">
+
+                            <label for="line_manager_id">Line Manager</label>
+                            <select id="line_manager_id" name="line_manager_id">
+                                <option value="">Select Line Manager</option>
+                                {% for manager_id, manager in line_managers.items() %}
+                                    <option value="{{ manager_id }}" {% if manager_id|int == record['line_manager_id']|int %}selected{% endif %}>
+                                        {{ manager['first_name'] }} {{ manager['last_name'] }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+
+                            {% if user['id'] == record['id'] %}
+                                <label for="password">Password</label>
+                                <input type="password" id="password" name="password" placeholder="Enter new password">
+                            {% endif %}
+                        {% elif route == '/managers' %}
+                            {% if user['id'] == record['id'] %}
+                                <label for="password">Password</label>
+                                <input type="password" id="password" name="password" placeholder="Enter new password">
+                            {% endif %}
+                        {% endif %}
+                    {% elif table_name == 'Exam' %}
+                        <label for="status">Status</label>
+                        <select id="status" name="status" required>
+                            <option value="Scheduled" {% if record['status'] == 'Scheduled' %}selected{% endif %}>Scheduled</option>
+                            <option value="Completed" {% if record['status'] == 'Completed' %}selected{% endif %}>Completed</option>
+                            <option value="Unsuccessful" {% if record['status'] == 'Unsuccessful' %}selected{% endif %}>Unsuccessful</option>
+                        </select>
+
+                        <label for="apprentice_id">Apprentice</label>
+                        <select id="apprentice_id" name="apprentice_id" required>
+                            {% for apprentice_id, apprentice_name in apprentices.items() %}
+                                <option value="{{ apprentice_id }}" {% if apprentice_id|int == record['apprentice_id']|int %}selected{% endif %}>
+                                    {{ apprentice_name }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    {% elif table_name == 'Leave_request' %}
+                        <label for="status">Status</label>
+                        <select id="status" name="status" required>
+                            <option value="Pending" {% if record['status'] == 'Pending' %}selected{% endif %}>Pending</option>
+                            <option value="Approved" {% if record['status'] == 'Approved' %}selected{% endif %}>Approved</option>
+                            <option value="Rejected" {% if record['status'] == 'Rejected' %}selected{% endif %}>Rejected</option>
+                        </select>
+
+                        <label for="apprentice_id">Apprentice</label>
+                        <select id="apprentice_id" name="apprentice_id" required>
+                            {% for apprentice_id, apprentice_name in apprentices.items() %}
+                                <option value="{{ apprentice_id }}" {% if apprentice_id|int == record['apprentice_id']|int %}selected{% endif %}>
+                                    {{ apprentice_name }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    {% elif table_name == 'Project' %}
+                        <label for="start_date">Start Date</label>
+                        <input type="date" id="start_date" name="start_date" value="{{ record['start_date'] }}" required>
+
+                        <label for="end_date">End Date</label>
+                        <input type="date" id="end_date" name="end_date" value="{{ record['end_date'] }}">
+
+                        <label for="status">Status</label>
+                        <select id="status" name="status" required>
+                            <option value="Ongoing" {% if record['status'] == 'Ongoing' %}selected{% endif %}>Ongoing</option>
+                            <option value="Completed" {% if record['status'] == 'Completed' %}selected{% endif %}>Completed</option>
+                        </select>
+
+                        <label for="apprentice_id">Apprentice</label>
+                        <select id="apprentice_id" name="apprentice_id" required>
+                            {% for apprentice_id, apprentice_name in apprentices.items() %}
+                                <option value="{{ apprentice_id }}" {% if apprentice_id|int == record['apprentice_id']|int %}selected{% endif %}>
+                                    {{ apprentice_name }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="actions">
+                <button type="submit">Save</button>
+                <button type="button" onclick="window.history.back();">Cancel</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

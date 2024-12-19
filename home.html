@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Skills Academy Tracker - Home</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <script src="/static/js/script.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Digital Skills Academy Tracker</h1>
+    </header>
+    <div class="container">
+        <h1>Welcome, {{ first_name }}!</h1>
+        <p>Track and manage your DSA journey.</p>
+        <div class="tile-container">
+            <a href="/apprentices" class="tile-button">Apprentices</a>
+            <a href="/exams" class="tile-button">Exams</a>
+            <a href="/leave" class="tile-button">Leave</a>
+            <a href="/managers" class="tile-button">Line Managers</a>
+            <a href="/projects" class="tile-button">Projects</a>
+        </div>
+        <form method="POST" action="/logout">
+            <button class="logout-button" type="submit">Log Out</button>
+        </form>
+    </div>
+</body>
+</html>

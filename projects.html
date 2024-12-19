@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Skills Academy Tracker - Projects</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <script src="/static/js/script.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Digital Skills Academy Tracker</h1>
+    </header>
+    <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+        <h1>Projects</h1>
+        <div class="button-group">
+            <a href="/home">
+                <button class="home-button">Home</button>
+            </a>
+            <a href="/add/Project">
+                <button class="add-button">Add Project</button>
+            </a>
+        </div>
+        <div class="filter-section">
+            <label for="filter-apprentice">Filter by Apprentice:</label>
+            <input type="text" id="filter-apprentice" placeholder="Enter apprentice name">
+
+            <label for="filter-project">Filter by Project Name:</label>
+            <input type="text" id="filter-project" placeholder="Enter project name">
+
+            <button id="apply-filter" class="filter-button">Filter</button>
+        </div>
+        <h2>Project Records</h2>
+        {% if projects %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Apprentice</th>
+                    <th>Project</th>
+                    <th>Description</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="project-table-body">
+                {% for project in projects %}
+                <tr>
+                    <td>{{ project.apprentice_name }}</td>
+                    <td>{{ project.name }}</td>
+                    <td>{{ project.description }}</td>
+                    <td>{{ project.start_date }}</td>
+                    <td>{{ project.end_date }}</td>
+                    <td>{{ project.status }}</td>
+                    <td class="actions">
+                        {% if user.role == 'Admin' %}
+                        <a href="/edit/Project/{{ project.id }}">
+                            <button class="edit-button">Edit</button>
+                        </a>
+                        <form action="/delete/Project/{{ project.id }}" method="POST" style="display: inline;">
+                            <button type="submit" class="delete-button">Delete</button>
+                        </form>
+                        {% elif user.role != 'Admin' and project.apprentice_id == user.id %}
+                        <a href="/edit/Project/{{ project.id }}">
+                            <button class="edit-button">Edit</button>
+                        </a>
+                        <form action="/delete/Project/{{ project.id }}" method="POST" style="display: inline;">
+                            <button type="submit" class="delete-button">Delete</button>
+                        </form>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No project records found.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

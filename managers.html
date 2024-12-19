@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Skills Academy Tracker - Line Managers</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <script src="/static/js/script.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Digital Skills Academy Tracker</h1>
+    </header>
+    <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+        <h1>DSA Line Managers</h1>
+        <div class="button-group">
+            <a href="/home">
+                <button class="home-button">Home</button>
+            </a>
+            {% if user.role == 'Admin' %}
+            <a href="/add/User">
+                <button class="add-button">Add Line Manager</button>
+            </a>
+            {% endif %}
+        </div>
+
+        {% if user.role != 'Admin' and user.line_manager %}
+        <h2>Your Details</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ user.line_manager.first_name }}</td>
+                    <td>{{ user.line_manager.last_name }}</td>
+                    <td>{{ user.line_manager.email }}</td>
+                </tr>
+            </tbody>
+        </table>
+        {% endif %}
+
+        <h2>All Line Managers</h2>
+        {% if line_managers %}
+        <table>
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    {% if user.role == 'Admin' %}
+                    <th>Actions</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for manager in line_managers %}
+                <tr>
+                    <td>{{ manager.first_name }}</td>
+                    <td>{{ manager.last_name }}</td>
+                    <td>{{ manager.email }}</td>
+                    {% if user.role == 'Admin' %}
+                    <td class="actions">
+                        <a href="/edit/User/{{ manager.id }}">
+                            <button class="edit-button">Edit</button>
+                        </a>
+                        <form action="/delete/User/{{ manager.id }}" method="POST" style="display: inline;">
+                            <button type="submit" class="delete-button">Delete</button>
+                        </form>
+                    </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No line managers found.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

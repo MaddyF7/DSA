@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Skills Academy Tracker - Leave Requests</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <script src="/static/js/script.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Digital Skills Academy Tracker</h1>
+    </header>
+    <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+        <h1>Leave Requests</h1>
+        <div class="button-group">
+            <a href="/home">
+                <button class="home-button">Home</button>
+            </a>
+            <a href="/add/Leave_request">
+                <button class="add-button">Add Leave</button>
+            </a>
+        </div>
+        <div class="filter-section">
+            <label for="filter-apprentice">Filter by Apprentice:</label>
+            <input type="text" id="filter-apprentice" placeholder="Enter apprentice name">
+            <button id="apply-filter" class="filter-button">Filter</button>
+        </div>
+        <h2>Leave Records</h2>
+        {% if leaves %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Apprentice</th>
+                    <th>Type</th>
+                    <th>Start</th>
+                    <th>End</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="leave-table-body">
+                {% for leave in leaves %}
+                <tr>
+                    <td>{{ leave.apprentice_name }}</td>
+                    <td>{{ leave.leave_type }}</td>
+                    <td>{{ leave.start_date }}</td>
+                    <td>{{ leave.end_date }}</td>
+                    <td>{{ leave.status }}</td>
+                    <td class="actions">
+                        {% if user.role == 'Admin' %}
+                        <a href="/edit/Leave_request/{{ leave.id }}">
+                            <button class="edit-button">Edit</button>
+                        </a>
+                        <form action="/delete/Leave_request/{{ leave.id }}" method="POST" style="display: inline;">
+                            <button type="submit" class="delete-button">Delete</button>
+                        </form>
+                        {% elif user.role != 'Admin' and leave.apprentice_id == user.id %}
+                        <a href="/edit/Leave_request/{{ leave.id }}">
+                            <button class="edit-button">Edit</button>
+                        </a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No leave records found.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

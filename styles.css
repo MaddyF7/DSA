@@ -1,0 +1,355 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    margin: 0;
+    padding: 0;
+}
+
+/* Header */
+header {
+    background-color: #711313;
+    color: #fff;
+    text-align: center;
+    padding: 15px 0;
+}
+
+/* Error Message */
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+/* Login Page */
+.login-container {
+    background: #fff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    width: 300px;
+    margin: 40px auto;
+}
+
+.login-container h2 {
+    color: #711313;
+    font-size: 20px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.login-container label {
+    display: block;
+    font-size: 13px;
+    margin-bottom: 8px;
+    color: #444;
+}
+
+.login-container input[type="email"],
+.login-container input[type="password"] {
+    width: 100%;
+    padding: 8px;
+    font-size: 13px;
+    margin-bottom: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.login-container button {
+    background-color: #711313;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+    width: 100%;
+}
+
+.login-container button:hover {
+    background-color: #8c1a1a;
+}
+
+.register-container {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.register-link {
+    color: #711313;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.register-link:hover {
+    text-decoration: underline;
+}
+
+/* Home Page */
+.container {
+    text-align: center;
+    margin: 50px auto;
+}
+
+.container h1 {
+    color: #711313;
+    font-size: 24px;
+}
+
+/* Navigation Tiles */
+.tile-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin: 50px 0 20px;
+    flex-wrap: wrap;
+}
+
+.tile-button {
+    background: #711313;
+    color: white;
+    text-decoration: none;
+    padding: 20px 30px;
+    font-size: 16px;
+    border-radius: 8px;
+    text-align: center;
+    display: inline-block;
+    width: 150px;
+}
+
+.tile-button:hover {
+    background: #8c1a1a;
+}
+
+/* Logout Button */
+.logout-button {
+    background: #4b4b4b;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-top: 20px;
+}
+
+.logout-button:hover {
+    background: #6b6b6b;
+}
+
+/* Apprentices Page */
+.container table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+.container th,
+.container td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.container th {
+    background-color: #711313;
+    color: white;
+}
+
+.container tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.edit-button,
+.delete-button {
+    padding: 5px 10px;
+    margin: 0 5px;
+    background-color: #711313;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.edit-button:hover {
+    background-color: #8c1a1a;
+}
+
+.delete-button {
+    background-color: #6b6b6b;
+}
+
+.delete-button:hover {
+    background-color: #4b4b4b;
+}
+
+/* Button Group */
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.button-group button {
+    padding: 10px 15px;
+    font-size: 14px;
+    border: none;
+    background-color: #711313;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.button-group button:hover {
+    background-color: #8c1a1a;
+}
+
+.button-group button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+/* Edit/Add Apprentice Forms */
+.edit-container,
+.add-container {
+    background: #fff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    width: 80%;
+    max-width: 800px;
+    margin: 40px auto;
+    box-sizing: border-box;
+}
+
+.edit-container h2,
+.add-container h2 {
+    color: #711313;
+    font-size: 20px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.edit-container .form-row,
+.add-container .form-row {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 15px;
+}
+
+.edit-container .form-column,
+.add-container .form-column {
+    flex: 1;
+}
+
+.edit-container label,
+.add-container label {
+    display: block;
+    font-size: 13px;
+    margin-bottom: 8px;
+    color: #444;
+}
+
+.edit-container input[type="text"],
+.edit-container input[type="email"],
+.edit-container input[type="password"],
+.edit-container input[type="date"],
+.edit-container select,
+.add-container input[type="text"],
+.add-container input[type="email"],
+.add-container input[type="password"],
+.add-container input[type="date"],
+.add-container select {
+    width: 100%;
+    padding: 8px;
+    font-size: 13px;
+    margin-bottom: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.edit-container button,
+.add-container button {
+    background-color: #711313;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+    width: 48%;
+}
+
+.edit-container button:hover,
+.add-container button:hover {
+    background-color: #8c1a1a;
+}
+/* Filter Section */
+.filter-section .filter-button {
+    background-color: #711313;
+    color: white;
+    padding: 8px 12px;
+    font-size: 14px;
+    font-weight: normal;
+    border-radius: 4px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: none; 
+}
+/* Add hover and focus states */
+.filter-section .filter-button:hover {
+    background-color: #8c1a1a;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+.filter-section .filter-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(113, 19, 19, 0.3);
+}
+/* Filter Section Inputs */
+.filter-section input[type="text"] {
+    border: 1px solid #ccc;
+    padding: 10px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    width: 250px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+textarea {
+    height: 100px;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 13px;
+    font-family: Arial, sans-serif;
+    box-sizing: border-box;
+    resize: none;
+    overflow-y: auto;
+}
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+.alert-success {
+    color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+}
+.fade {
+    transition: opacity 0.5s ease-out;
+    opacity: 0;
+}
+.show {
+    opacity: 1;
+}

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Skills Academy Tracker - Add {{ table_name }}</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <script src="/static/js/script.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Digital Skills Academy Tracker</h1>
+    </header>
+    <div class="add-container">
+        <h2>
+            {% if table_name == 'User' %}
+                {% if route == '/' %}
+                    Add User
+                {% elif route == '/apprentices' %}
+                    Add Apprentice
+                {% elif route == '/managers' %}
+                    Add Line Manager
+                {% else %}
+                    Add {{ table_name }}
+                {% endif %}
+            {% else %}
+                Add {{ table_name }}
+            {% endif %}
+        </h2>
+        {% if error %}
+            <p class="error-message">{{ error }}</p>
+        {% endif %}
+        <form method="POST">
+            <div class="form-row">
+                <div class="form-column">
+                    {% if table_name == 'User' %}
+                        <label for="first_name">First Name</label>
+                        <input type="text" id="first_name" name="first_name" placeholder="Enter first name" required>
+
+                        <label for="last_name">Last Name</label>
+                        <input type="text" id="last_name" name="last_name" placeholder="Enter last name" required>
+
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="Enter email" required>
+
+                        {% if route == '/' or route == '/apprentices' %}
+                            <label for="password">Password</label>
+                            <input type="password" id="password" name="password" placeholder="Enter password" required>
+                        {% endif %}
+                    {% elif table_name == 'Exam' %}
+                        <label for="name">Exam Name</label>
+                        <input type="text" id="name" name="name" placeholder="Enter exam name" required>
+
+                        <label for="exam_date">Exam Date</label>
+                        <input type="date" id="exam_date" name="exam_date" required>
+                    {% elif table_name == 'Leave_request' %}
+                        <label for="leave_type">Leave Type</label>
+                        <select id="leave_type" name="leave_type" required>
+                            <option value="Sick">Sick</option>
+                            <option value="Annual">Annual</option>
+                            <option value="Maternity">Maternity</option>
+                            <option value="Paternity">Paternity</option>
+                            <option value="Unpaid">Unpaid</option>
+                            <option value="Other">Other</option>
+                        </select>
+
+                        <label for="start_date">Start Date</label>
+                        <input type="date" id="start_date" name="start_date" required>
+
+                        <label for="end_date">End Date</label>
+                        <input type="date" id="end_date" name="end_date" required>
+                    {% elif table_name == 'Project' %}
+                        <label for="name">Project Name</label>
+                        <input type="text" id="name" name="name" placeholder="Enter project name" required>
+
+                        <label for="description">Description</label>
+                        <textarea id="description" name="description" placeholder="Enter description" required></textarea>
+                    {% endif %}
+                </div>
+                <div class="form-column">
+                    {% if table_name == 'User' %}
+                        {% if route == '/' %}
+                            <label for="role">Role</label>
+                            <select id="role" name="role" required>
+                                <option value="">Select Role</option>
+                                <option value="admin">Admin</option>
+                                <option value="apprentice">Apprentice</option>
+                            </select>
+
+                            <div id="apprentice-fields" style="display: none;">
+                                <label for="cohort">Cohort</label>
+                                <input type="text" id="cohort" name="cohort" placeholder="Enter cohort">
+
+                                <label for="start_date">Start Date</label>
+                                <input type="date" id="start_date" name="start_date">
+
+                                <label for="line_manager_id">Line Manager</label>
+                                <select id="line_manager_id" name="line_manager_id">
+                                    <option value="">Select Line Manager</option>
+                                    {% for manager_id, manager in line_managers.items() %}
+                                        <option value="{{ manager_id }}">{{ manager['first_name'] }} {{ manager['last_name'] }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        {% elif route == '/apprentices' %}
+                            <label for="cohort">Cohort</label>
+                            <input type="text" id="cohort" name="cohort" placeholder="Enter cohort" required>
+
+                            <label for="start_date">Start Date</label>
+                            <input type="date" id="start_date" name="start_date" required>
+
+                            <label for="end_date">End Date</label>
+                            <input type="date" id="end_date" name="end_date" required>
+
+                            <label for="line_manager_id">Line Manager</label>
+                            <select id="line_manager_id" name="line_manager_id" required>
+                                <option value="">Select Line Manager</option>
+                                {% for manager_id, manager in line_managers.items() %}
+                                    <option value="{{ manager_id }}">{{ manager['first_name'] }} {{ manager['last_name'] }}</option>
+                                {% endfor %}
+                            </select>
+                        {% elif route == '/managers' %}
+                            <label for="password">Password</label>
+                            <input type="password" id="password" name="password" placeholder="Enter password" required>
+                        {% endif %}
+                    {% elif table_name == 'Exam' %}
+                        <label for="status">Status</label>
+                        <select id="status" name="status" required>
+                            <option value="Scheduled">Scheduled</option>
+                            <option value="Completed">Completed</option>
+                            <option value="Unsuccessful">Unsuccessful</option>
+                        </select>
+
+                        <label for="apprentice_id">Apprentice</label>
+                        <select id="apprentice_id" name="apprentice_id" required>
+                            <option value="">Select Apprentice</option>
+                            {% for apprentice_id, apprentice_name in apprentices.items() %}
+                                <option value="{{ apprentice_id }}">{{ apprentice_name }}</option>
+                            {% endfor %}
+                        </select>
+                    {% elif table_name == 'Leave_request' %}
+                        <label for="apprentice_id">Apprentice</label>
+                        <select id="apprentice_id" name="apprentice_id" required>
+                            <option value="">Select Apprentice</option>
+                            {% for apprentice_id, apprentice_name in apprentices.items() %}
+                                <option value="{{ apprentice_id }}">{{ apprentice_name }}</option>
+                            {% endfor %}
+                        </select>
+                    {% elif table_name == 'Project' %}
+                        <label for="start_date">Start Date</label>
+                        <input type="date" id="start_date" name="start_date" required>
+
+                        <label for="end_date">End Date</label>
+                        <input type="date" id="end_date" name="end_date">
+
+                        <label for="status">Status</label>
+                        <select id="status" name="status" required>
+                            <option value="Ongoing">Ongoing</option>
+                            <option value="Completed">Completed</option>
+                        </select>
+
+                        <label for="apprentice_id">Apprentice</label>
+                        <select id="apprentice_id" name="apprentice_id" required>
+                            <option value="">Select Apprentice</option>
+                            {% for apprentice_id, apprentice_name in apprentices.items() %}
+                                <option value="{{ apprentice_id }}">{{ apprentice_name }}</option>
+                            {% endfor %}
+                        </select>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="actions">
+                <button type="submit">Add</button>
+                <button type="button" onclick="window.history.back();">Cancel</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
